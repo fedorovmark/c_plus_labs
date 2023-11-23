@@ -70,7 +70,7 @@ decltype(auto) integrate(
 
 
 /* Функция производит интегрирование, разбивая отрезок на подотрезки длиной не более dx */
-template<typename Callable, typename RealType, std::size_t N>
+template<typename Callable, typename RealType, unsigned int N>
 decltype(auto) integrate(   
     const Callable& func,  // Интегрируемая функция
     const typename ArgumentGetter<Callable>::Argument& start,  // начало отрезка
