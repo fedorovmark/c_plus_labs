@@ -45,20 +45,34 @@ struct ArgumentGetter<R(Arg)> {
 template<typename T>
 using Dif = decltype(std::declval<T>() - std::declval<T>());
 
+
 /* Функция производит интегрирование на одном отрезке */
-template<typename Callable, std::size_t N>
+template<typename Callable, typename RealType, std::size_t N>
 decltype(auto) integrate(   
     const Callable& func,  // Интегрируемая функция
     const typename ArgumentGetter<Callable>::Argument& start,  
     const typename ArgumentGetter<Callable>::Argument& end,
-    
-                        );
+    const nodes<RealType, N>& node
+                        ) {
+                            Dif polusum = (end + start) / 2;
+                            Dif poluraz = (end - start) / 2;
+                            double gauss_sum = 0.;
 
-/* Функция производит интегрирование, разбивая отрезок на подотрезки длиной не более dx */
-template<typename Callable, std::size_t N>
-decltype(auto) integrate(   
-    const Callable& func,  // Интегрируемая функция
-    const typename ArgumentGetter<Callable>::Argument& start,  // начало отрезка
-    const typename ArgumentGetter<Callable>::Argument& end,  // конец отрезка
-    const Dif<typename ArgumentGetter<Callable>::Argument>& dx  // Длина подотрезка
-                        );
+                            for (auto i = 0; i < N; i++) {
+                                gauss_sum += poluras * func(polusum + poluraz * node.p[i]) * node.w[i];
+                            }
+
+                            return gauss_sum;
+                        }
+
+
+
+// /* Функция производит интегрирование, разбивая отрезок на подотрезки длиной не более dx */
+// template<typename Callable, std::size_t N>
+// decltype(auto) integrate(   
+//     const Callable& func,  // Интегрируемая функция
+//     const typename ArgumentGetter<Callable>::Argument& start,  // начало отрезка
+//     const typename ArgumentGetter<Callable>::Argument& end,  // конец отрезка
+//     const Dif<typename ArgumentGetter<Callable>::Argument>& dx  // Длина подотрезка
+//                         );
+
