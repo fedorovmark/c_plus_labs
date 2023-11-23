@@ -46,13 +46,20 @@ template<typename T>
 using Dif = decltype(std::declval<T>() - std::declval<T>());
 
 /* Функция производит интегрирование на одном отрезке */
-template<typename Callable, std::size_t N>
+template<typename Callable, typename RealType,  std::size_t N>
 decltype(auto) integrate(   
     const Callable& func,  // Интегрируемая функция
     const typename ArgumentGetter<Callable>::Argument& start,  
     const typename ArgumentGetter<Callable>::Argument& end,
-    
-                        );
+    const nodes<RealType, N>& node
+                        ) {
+                            double gauss_sum = 0.;
+                            for (auto i = 0; i < N; i++) {
+                                gauss_sum += func(node.p[i]) * node.w[i];
+                            }
+                            
+                            return gauss_sum;
+                        }
 
 /* Функция производит интегрирование, разбивая отрезок на подотрезки длиной не более dx */
 template<typename Callable, std::size_t N>
