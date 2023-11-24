@@ -2,6 +2,9 @@
 #include <type_traits>
 #include <cmath>
 #include <iostream>
+#include <iomanip>
+#include <fstream>
+
 
 template <typename RealType, unsigned int N> 
 struct nodes;
@@ -101,10 +104,20 @@ double func(double x) {
 int main() {
     double res;
     double st = 0.;
-    double end[20] = {1, 2,3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20};
+    double end = 10.;
+    double teor = 1.83907;
+    double dx;
     nodes<double, 5> node;
-    for (auto i = 0; i < 20; i++) {
-        res = integrate(func, st, end[i], 1, node);
-        std::cout << end[i]<< "----------" << res << std::endl;
+    std::ofstream out; 
+    out.open("kv5.txt");
+    for(auto i = 0; i < 1000; i++) {
+        dx = (end - st) / (i + 1);
+        res = integrate(func, st, end, dx, node);
+        std::cout << i << std::setprecision(18) << "--------  res =" << res << " | err = " << std::abs(res - teor) << std::endl;
+        if (out.is_open())
+        {
+            out << i + 1 << std::setprecision(18) << " " << std::abs(res - teor) << std::endl;
+        }
     }
+    out.close(); 
 }
