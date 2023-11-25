@@ -71,4 +71,7 @@ class CubicSpline {
 
     yType interpolate(const xType& x) const noexcept;
 i};
+<<<<<<< HEAD
+>>>>>>> main
+=======
 >>>>>>> main
