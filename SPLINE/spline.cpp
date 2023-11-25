@@ -2,6 +2,37 @@
 #include <type_traits>
 #include <ostream>
 #include <iostream>
+#include <cmath>
+
+double func(double x){
+    return exp(x);
+}
+
+
+template<typename T>
+std::vector<T> slice(std::vector<T> const &v, int m, int n)
+{
+    auto first = v.cbegin() + m;
+    auto last = v.cbegin() + n+1;
+ 
+    std::vector<T> vec(first, last);
+    return vec;
+}
+
+template<typename T>
+double f_for_vect(std::vector<T>& a, int n) {
+    if (n == 1) {
+        return  func(a[0]);
+    } 
+    else {
+        std::vector<T> b, c;
+        b = slice(a, 1, n-1);
+        c = slice(a, 0, n-2);
+        return (f_for_vect(b, n-1) - f_for_vect(c, n-1)) / (a[n-1] - a[0]);
+    }
+}
+
+
 /** класс для работы с трехдиагональной матрицей **/
 template<typename Type, typename xType>
 class ThreeDiagonalMatrix {
