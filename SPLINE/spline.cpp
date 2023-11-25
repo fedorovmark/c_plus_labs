@@ -2,15 +2,45 @@
 #include <type_traits>
 #include <ostream>
 #include <iostream>
+#include <cmath>
+
+double func(double x){
+    return exp(x);
+}
+
+
+template<typename T>
+std::vector<T> slice(std::vector<T> const &v, int m, int n)
+{
+    auto first = v.cbegin() + m;
+    auto last = v.cbegin() + n+1;
+ 
+    std::vector<T> vec(first, last);
+    return vec;
+}
+
+template<typename T>
+double f_for_vect(std::vector<T>& a, int n) {
+    if (n == 1) {
+        return  func(a[0]);
+    } 
+    else {
+        std::vector<T> b, c;
+        b = slice(a, 1, n-1);
+        c = slice(a, 0, n-2);
+        return (f_for_vect(b, n-1) - f_for_vect(c, n-1)) / (a[n-1] - a[0]);
+    }
+}
+
+
 /** класс для работы с трехдиагональной матрицей **/
 template<typename Type, typename xType>
 class ThreeDiagonalMatrix {
 private:
 	std::vector<std::vector<Type>> matrix;
-	std::vector<Type> h;
 public:
 	ThreeDiagonalMatrix(std::vector<xType> &points) {
-		std::vector<xType> h(points.size());
+		std::vector<Type> h(points.size());
 		for (auto i = 1;  i <= points.size() - 1; i++) {
 			h[i] = points[i] - points[i-1];
 		}
@@ -48,33 +78,10 @@ std::ostream& operator<<(std::ostream& s, ThreeDiagonalMatrix<Type, xType>& tdm)
 	return s;
 }
 
-template<typename numeratorType, typename denominatorType>
-using DivisType = decltype(std::declval<numeratorType>() / std::declval<denominatorType>());
-
-/** Функция для решения методм  прогонки **/
-template<typename mType, typename cType, typename xType>
-std::vector<DivisType<cType, mType>> solve( const ThreeDiagonalMatrix<mType, xType>& matrix,
-                                            const std::vector<cType>& column);
-
-
-/**
-* xType - тип аргумента x.
-* yType - тип значения функции y
-*/
-template<typename xType, typename yType>
-class CubicSpline {
-    /*** Какие-то поля ***/
-
-    public:
-    CubicSpline( const std::vector<xType> &points,  // Значения x
-                        const std::vector<yType>& values,  // значения y
-                        );
-
-    yType interpolate(const xType& x) const noexcept;
-};
 
 int main() {
     std::vector<double> points = {1, 3, 6, 11, 19, 20};
     ThreeDiagonalMatrix<double, double> tdm(points);
     std::cout << tdm;
 }
+
