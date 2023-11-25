@@ -9,6 +9,15 @@ private:
 public:
 	ThreeDiagonalMatrix(std::vector<xType> &points) {
 		std::vector<std::vector<Type>> matrix(points.size(), std::vector<Type>(points.size(), 0));
+		std::vector<std::vector<Type>> matrix(points.size(), std::vector<Type>(points.size(), 0));
+                matrix[0][0] = 2;
+                matrix[0][1] = h[2] / (h[1] + h[2])
+                for (auto i = 1; i <= points.size() - 2; i++) {
+                        matrix[i][i-1] = h[i+1] / (h[i+1] + h[i+2]);
+                        matrix[i][i] = 2;
+                        matrix[i][i+1] = h[i+2] / (h[i+1] + h[i+2]);
+                }
+				
 		matrix[0][0] = 2;
 		matrix[0][1] = h[2] / (h[1] + h[2])
 		for (auto i = 1; i <= points.size() - 2; i++) {
@@ -29,9 +38,17 @@ public:
 };
 
 template<typename Type>
-std::ostream& operator << (std::ostream &os, const ThreeDiagonalMatrix<Type> &threediagonalmatrix)
-{
-    return os << ;
+std::ostream& operator<<(std:: ostream& s, const ThreeDiagonalMatrix<Type> tdm)//реализация метода вывода
+{	
+	std::vector<std::vector<Type>> matrix;
+	matrix = tdm.get_matrix();
+	for (int i=0; i<matrix.size(); i++){
+		for (int j=0; j<matrix.size(); j++){
+			s<<tdm[i][j]<<" ";
+		}
+		s<< " " <<std::endl;
+	}
+	return s;
 }
 
 template<typename numeratorType, typename denominatorType>
