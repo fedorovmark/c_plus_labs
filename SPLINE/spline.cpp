@@ -7,9 +7,10 @@ template<typename Type, typename xType>
 class ThreeDiagonalMatrix {
 private:
 	std::vector<std::vector<Type>> matrix;
+	std::vector<Type> h;
 public:
 	ThreeDiagonalMatrix(std::vector<xType> &points) {
-		std::vector<Type> h(points.size());
+		std::vector<xType> h(points.size());
 		for (auto i = 1;  i <= points.size() - 1; i++) {
 			h[i] = points[i] - points[i-1];
 		}
