@@ -1,11 +1,38 @@
 #include <vector>
 #include <type_traits>
-
+#include <ostream>
 /** класс для работы с трехдиагональной матрицей **/
 template<typename Type>
 class ThreeDiagonalMatrix {
-    /*** Здесь какие-то поля и методы ***/
+private:
+	std::vector<std::vector<Type>> matrix;
+public:
+	ThreeDiagonalMatrix(std::vector<xType> &points) {
+		std::vector<std::vector<Type>> matrix(points.size(), std::vector<Type>(points.size(), 0));
+		matrix[0][0] = 2;
+		matrix[0][1] = h[2] / (h[1] + h[2])
+		for (auto i = 1; i <= points.size() - 2; i++) {
+			matrix[i][i-1] = h[i+1] / (h[i+1] + h[i+2]);
+			matrix[i][i] = 2;
+			matrix[i][i+1] = h[i+2] / (h[i+1] + h[i+2]);
+		}
+		matrix[points.size() - 1][points.size() - 2] = h[points.size()] / (h[points.size()] + h[points.size() + 1]);
+		matrix[points.size() - 1][points.size() - 1] = 2;
+
+		this->matrix = matrix;
+	}
+
+	std::vector<std::vector<Type>> get_matrix() {
+		return matrix;
+	}
+	
 };
+
+template<typename Type>
+std::ostream& operator << (std::ostream &os, const ThreeDiagonalMatrix<Type> &threediagonalmatrix)
+{
+    return os << ;
+}
 
 template<typename numeratorType, typename denominatorType>
 using DivisType = decltype(std::declval<numeratorType>() / std::declval<denominatorType>());
@@ -30,4 +57,4 @@ class CubicSpline {
                         );
 
     yType interpolate(const xType& x) const noexcept;
-};
+i};
